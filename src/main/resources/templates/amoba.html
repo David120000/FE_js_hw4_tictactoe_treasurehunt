@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Tic-Tac-Toe</title>
+    <link th:href="@{/stylesheet.css}" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/6560b76baf.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header>
+        <div id="headerDiv">
+            <div class="titleText">
+                <h1>Tic-Tac-Toe</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="mainDiv">
+            <div class="mainContainerDiv" style=" margin-top: 5px;">
+                <p id="italicAnnouncerText">Next:</p>
+                <div class="horizontalFlexDiv">
+                    <div id="nextPlayerX">X</div>
+                    <div id="nextPlayerO">O</div>
+                </div>
+            </div>
+            <div class="mainContainerDiv">
+                <table id="gameTable">
+
+                </table>
+            </div>
+        </div>
+    </main>
+    <script th:inline="javascript">
+        let tableSize = /*[[${tableSize}]]*/'0';
+    </script>
+    <script type="text/javascript" th:src="@{/amoba.js}"></script>
+</body>
+</html>
