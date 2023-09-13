@@ -2,16 +2,19 @@ let playerClicks = 0;
 
 let treasIconClass0 = "fa-regular";
 let treasIconClass1 = "fa-gem";
-let treasIconStyle0 = "color: #d69200;";
+let treasIconClass2 = "fa-10x";
+let treasIconStyle0 = "gold";
 
 let skullIconClass0 = "fa-solid";
 let skullIconClass1 = "fa-skull-crossbones";
+let skullIconClass2 = "fa-10x";
+let skullIconStyle0 = "white";
 
 populateGameTable();
 let gameBoard = createGameElementContainerArray();
 placeContents(gameBoard);
 
-
+console.log(user);
 
 function populateGameTable() {
 
@@ -25,6 +28,7 @@ function populateGameTable() {
         for(column = 0; column < tableSize; column++) {
     
             let tableCell = document.createElement("td");
+            tableCell.style.padding = "0rem;";
             tableRow.appendChild(tableCell);
            
             let cellContainer = document.createElement("div");
@@ -36,12 +40,11 @@ function populateGameTable() {
             let icon = document.createElement("i");
             icon.setAttribute("id", "i-" + row + "-" + column);
             cellContainer.appendChild(icon);
-    
-    
+
             cellContainer.onclick = function() {
                 
-               
-            }
+                explore(gameBoard, cellContainer);
+             }
         }
     }
 }
@@ -92,5 +95,50 @@ function placeContents(gameBoard) {
             }
         }
     }
+    console.log(gameBoard);
+}
+
+
+function explore(gameBoard, cellContainer) {
+
+    let id = cellContainer.id;
+    let rowId = Number(id.substr(2, 1));
+    let colId = Number(id.substr(4, 1));
+
+    if(gameBoard[rowId][colId] == "treasure") {
+        console.log("treasure " + rowId + ", " + colId);
+        
+        let icon = document.getElementById("i-" + rowId + "-" + colId);
+        icon.style.color = treasIconStyle0;
+        cellContainer.style.color = treasIconStyle0;
+        icon.classList.add(treasIconClass0);
+        icon.classList.add(treasIconClass1);
+        icon.classList.add(treasIconClass2);
+
+        let tileDiv = document.getElementById("c-" + rowId + "-" + colId);
+        tileDiv.style.backgroundColor = "black";
+    }
+    else if(gameBoard[rowId][colId] == "trap") {
+        console.log("trap " + rowId + ", " + colId);
+
+        let icon = document.getElementById("i-" + rowId + "-" + colId);
+        icon.style.color = skullIconStyle0;
+        cellContainer.style.color = skullIconStyle0;
+        icon.classList.add(skullIconClass0);
+        icon.classList.add(skullIconClass1);
+        icon.classList.add(skullIconClass2);
+
+        let tileDiv = document.getElementById("c-" + rowId + "-" + colId);
+        tileDiv.style.backgroundColor = "black";
+    }
+    else {
+        console.log("empty " + rowId + ", " + colId);
+
+        let tileDiv = document.getElementById("c-" + rowId + "-" + colId);
+        tileDiv.style.backgroundColor = "black";
+    }
+
+
+
 }
 
