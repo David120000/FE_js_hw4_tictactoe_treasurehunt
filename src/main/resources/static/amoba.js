@@ -32,7 +32,7 @@ for(row = 0; row < tableSize; row++) {
 
             let winnerCounter = 0;
 
-            if(playerClicks >= 5 && playerClicks % 2 == 0) {
+            if(playerClicks > 5 && playerClicks % 2 == 0) {
                 
                 let winner = winCheck();
                 winnerCounter = winner.length;

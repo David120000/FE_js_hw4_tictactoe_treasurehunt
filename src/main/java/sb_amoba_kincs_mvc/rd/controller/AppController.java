@@ -44,6 +44,7 @@ public class AppController {
         if(user != null) {
             targetPage = "thgame.html";
             model.addAttribute("user", user);
+            model.addAttribute("tableSize", 5);
         }
         else {
             model.addAttribute("message", "ERROR: User not found or the password was incorrect.");

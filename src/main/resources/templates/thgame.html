@@ -3,8 +3,29 @@
 <head>
     <meta charset="UTF-8" />
     <title>Treasure Hunt</title>
+    <link th:href="@{/stylesheet.css}" rel="stylesheet" />
 </head>
 <body>
-    
+    <header>
+        <div id="headerDiv">
+            <div class="titleText">
+                <h1>Treasure Hunt</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div id="mainDiv">
+
+            <div class="mainContainerDiv">
+                <table id="gameTable">
+
+                </table>
+            </div>
+        </div>
+    </main>
+    <script th:inline="javascript">
+        let tableSize = /*[[${tableSize}]]*/'0';
+    </script>
+    <script type="text/javascript" th:src="@{/treashunt.js}"></script>
 </body>
 </html>
