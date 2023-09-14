@@ -173,7 +173,13 @@ function finishTheGame(lastExploredTile) {
             body: JSON.stringify({user, playerClicks})
         })
             .then((response) => response.json())
-            .then((json) => console.log(json));
+            .then((json) => {
+                user.name = json.persistedObject.name;
+                user.password = json.persistedObject.password;
+                user.livesLeft = json.persistedObject.livesLeft;
+                user.highScore = json.persistedObject.highScore;
+                console.log(user);
+            });
 
     }
     else {
@@ -186,7 +192,13 @@ function finishTheGame(lastExploredTile) {
             body: JSON.stringify(user)
         })
             .then((response) => response.json())
-            .then((json) => console.log(json));
+            .then((json) => {
+                user.name = json.persistedObject.name;
+                user.password = json.persistedObject.password;
+                user.livesLeft = json.persistedObject.livesLeft;
+                user.highScore = json.persistedObject.highScore;
+                console.log(user);
+            });
     }
 }
 
