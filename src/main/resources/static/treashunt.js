@@ -2,19 +2,21 @@ let playerClicks = 0;
 
 let treasIconClass0 = "fa-regular";
 let treasIconClass1 = "fa-gem";
-let treasIconClass2 = "fa-10x";
+let treasIconClass2 = "fa-8x";
 let treasIconStyle0 = "gold";
 
 let skullIconClass0 = "fa-solid";
 let skullIconClass1 = "fa-skull-crossbones";
-let skullIconClass2 = "fa-10x";
+let skullIconClass2 = "fa-8x";
 let skullIconStyle0 = "white";
+
 
 populateGameTable();
 let gameBoard = createGameElementContainerArray();
 placeContents(gameBoard);
 
 console.log(user);
+
 
 function populateGameTable() {
 
@@ -43,7 +45,15 @@ function populateGameTable() {
 
             cellContainer.onclick = function() {
                 
-                explore(gameBoard, cellContainer);
+                if(cellContainer.classList.contains("clickable")) {
+
+                    let exploredTile = explore(gameBoard, cellContainer);
+
+                    if(exploredTile != "empty") {
+                        finishTheGame(exploredTile);
+                    }
+                }
+                
              }
         }
     }
@@ -95,7 +105,6 @@ function placeContents(gameBoard) {
             }
         }
     }
-    console.log(gameBoard);
 }
 
 
@@ -105,7 +114,9 @@ function explore(gameBoard, cellContainer) {
     let rowId = Number(id.substr(2, 1));
     let colId = Number(id.substr(4, 1));
 
-    if(gameBoard[rowId][colId] == "treasure") {
+    let thisTile = gameBoard[rowId][colId];
+
+    if(thisTile == "treasure") {
         console.log("treasure " + rowId + ", " + colId);
         
         let icon = document.getElementById("i-" + rowId + "-" + colId);
@@ -118,7 +129,7 @@ function explore(gameBoard, cellContainer) {
         let tileDiv = document.getElementById("c-" + rowId + "-" + colId);
         tileDiv.style.backgroundColor = "black";
     }
-    else if(gameBoard[rowId][colId] == "trap") {
+    else if(thisTile == "trap") {
         console.log("trap " + rowId + ", " + colId);
 
         let icon = document.getElementById("i-" + rowId + "-" + colId);
@@ -138,7 +149,44 @@ function explore(gameBoard, cellContainer) {
         tileDiv.style.backgroundColor = "black";
     }
 
+    playerClicks++;
+
+    return thisTile;
+}
 
 
+function finishTheGame(lastExploredTile) {
+
+    for(let row = 0; row < tableSize; row++) {
+        for(let column = 0; column < tableSize; column++) {
+
+            document.getElementById("c-" + row + "-" + column).classList.remove("clickable");
+        }
+    }
+
+
+    if(lastExploredTile == "treasure") {
+
+        fetch("http://localhost:8080/game/treasurehunt/newscore", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify({user, playerClicks})
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+
+    }
+    else {
+
+        user.livesLeft = user.livesLeft - 1;
+
+        fetch("http://localhost:8080/game/treasurehunt/playerdied", {
+            method: "POST",
+            headers: {"Content-type": "application/json"},
+            body: JSON.stringify(user)
+        })
+            .then((response) => response.json())
+            .then((json) => console.log(json));
+    }
 }
 
